@@ -1,0 +1,184 @@
+@page "/login"
+@layout LoginLayout
+
+<style>
+    .loginBody {
+        display: flex;
+        height: 100vh;
+        width: 98%;
+        margin: auto;
+    }
+
+    .loginLeft {
+        color: white;
+        @* flex: 1; *@
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem;
+        min-width: 50%;
+    }
+
+    .loginLeft img {
+        width: 250px;
+        height: 250px;
+        margin-bottom: 1rem;
+    }
+
+    .loginLeft div {
+      
+        font-weight: 700;
+        font-size: 40px;
+    }
+
+    .loginLeft p {
+        max-width: 400px;
+        text-align: center;
+    }
+
+    .loginRight {
+        width: 49%;
+        background-color: #f9f9f9;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 98vh;
+    }
+
+    .loginCard {
+        background: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        width: 100%;
+               height: 98vh;
+               margin: auto;
+               display: flex;
+               flex-direction: column;
+        justify-content: center;
+    }
+
+    .loginCard h2 {
+        margin-bottom: 0.5rem;
+        font-size: 1.5rem;
+    }
+    .loginCard div {
+        font-weight: 700;
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+        color: #141340;
+    }
+
+    .loginCard p {
+        font-size: 0.9rem;
+        color: ##585C7B;
+        margin-bottom: 1.5rem;
+    }
+
+    .loginCard input {
+        width: 100%;
+        padding: 0.75rem;
+        margin-bottom: 1rem;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+
+    .loginCard button {
+        width: 100%;
+        padding: 0.85rem;
+        background-color: #0057FF;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        margin-bottom: 1rem;
+        cursor: pointer;
+    }
+
+    .social-buttons {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    .social-buttons button {
+        flex: 1;
+        padding-left: 0.2rem;
+        padding-right: 0.2rem;
+        padding-bottom: 0.4rem;
+        padding-top: 0.4rem;
+
+        border: 1px solid #EAECF0;
+        border-radius: 5px;
+        background: white;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: black;
+        font-size: 14px;
+        text-wrap: nowrap;
+    }
+    
+
+    .social-buttons img {
+        width: 20px;
+        margin-right: 8px;
+    }
+     .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 0.25rem;
+        font-weight: 400;
+        color: #585C7B; 
+        font-size: 16px;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 1rem;
+    }
+   
+
+</style>
+
+<div class="loginBody">
+    <div class="loginLeft">
+        <img src="icons/LoginIcon.svg" alt="Logo" />
+        <div>Let's Get Started</div>
+        <p>Empowering banks to customize and manage loan applications seamlessly.</p>
+    </div>
+
+        <div class="loginCard">
+            <div>Sign in</div>
+            <p>Sign in to continue your journey.</p>
+
+           
+<div class="form-group">
+    <label for="bankId" class="form-label">Bank ID</label>
+    <input id="bankId" type="text" placeholder="Bank ID" class="form-input" />
+</div>
+
+<div class="form-group" style="margin-bottom: 1.5rem;">
+    <label for="password" class="form-label">Password</label>
+    <input id="password" type="password" placeholder="Password" class="form-input" />
+</div>
+            <button class="">Sign in</button>
+
+            <p style="text-align: center; margin: 1rem 0;">Or sign in with</p>
+            <div class="social-buttons">
+                <button >
+                    <img src="icons/Google.svg" alt="Google" />Sign in with Google
+                </button>
+                <button>
+                    <img src="icons/Microsoft.svg" alt="Microsoft" /> Sign in with Microsoft
+                </button>
+            </div>
+    </div>
+</div>

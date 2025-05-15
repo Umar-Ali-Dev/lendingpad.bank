@@ -1,0 +1,79 @@
+﻿
+<div class="SidebarIcon ">
+    <img src="icons/MyLoan.svg" alt="Home Icon" class="icon" />
+
+</div>
+
+<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
+    <nav class="nav flex-column">
+  <div class="nav-item px-3">
+    <NavLink class="nav-link sidebar-link" href="" Match="NavLinkMatch.All">
+      <span aria-hidden="true"></span> Workflows
+    </NavLink>
+  </div>
+  <div class="nav-item px-3">
+    <NavLink class="nav-link sidebar-link" href="loanOfficers">
+      <span aria-hidden="true"></span> Loan Officers
+    </NavLink>
+  </div>
+ 
+
+  <div class="nav-item px-3">
+    <NavLink class="nav-link sidebar-link" href="weather">
+      <span aria-hidden="true"></span> Borrowers
+    </NavLink>
+  </div>
+  <div class="nav-item px-3">
+    <NavLink class="nav-link sidebar-link" href="realtor">
+      <span aria-hidden="true"></span> Realtors
+    </NavLink>
+  </div>
+
+  <div class="nav-item px-3">
+    <div class="nav-link d-flex justify-content-between align-items-center sidebar-link" @onclick="ToggleSettingsDropdown" style="cursor: pointer;">
+      <span>Settings</span>
+      <i class="bi @(isSettingsDropdownOpen ? "bi-caret-up-fill" : "bi-caret-down-fill")"></i>
+    </div>
+
+    @if (isSettingsDropdownOpen)
+    {
+      <ul class="list-group list-group-flush ms-3">
+        <li class="list-group-item border-0 p-1">
+          <NavLink class="nav-link sidebar-link" href="profile" @onclick="CloseSettingsDropdown">Profile</NavLink>
+        </li>
+        <li class="list-group-item border-0 p-1">
+          <NavLink class="nav-link sidebar-link" href="preferences" @onclick="CloseSettingsDropdown">Preferences</NavLink>
+        </li>
+        <li class="list-group-item border-0 p-1">
+          <NavLink class="nav-link sidebar-link" href="logout" @onclick="CloseSettingsDropdown">Logout</NavLink>
+        </li>
+      </ul>
+    }
+  </div>
+</nav>
+
+</div>
+
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+        private bool isSettingsDropdownOpen = false;
+
+    private void ToggleSettingsDropdown()
+    {
+        isSettingsDropdownOpen = !isSettingsDropdownOpen;
+    }
+
+    private void CloseSettingsDropdown()
+    {
+        isSettingsDropdownOpen = false;
+    }
+
+}

@@ -1,14 +1,257 @@
 ﻿@page "/"
 @inject NavigationManager NavigationManager
-<PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
-
-Welcome to your new app.
-<button class="btn btn-primary" @onclick="NavigateToCounter">Go to Counter</button>
-@code{
-    private void NavigateToCounter()
-    {
-        NavigationManager.NavigateTo("/counter");
-    }
+<style>
+    .breadcrumb {
+    font-size: 0.875rem;
+    color: #1f2937; 
+    margin-bottom: 1rem;
 }
+
+.breadcrumb a {
+    color: #6b7280; 
+    text-decoration: none;
+    margin-right: 0.25rem;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f5f7ff; 
+    padding: 1rem 1.5rem;
+    border-radius: 0.5rem;
+    flex-direction: column;
+}
+.header > div {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.header > div h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #141340;
+    font-size: 24px;
+}
+
+.actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.outline-btn {
+    padding: 0.5rem 1rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.375rem;
+    background-color: white;
+    color: #1f2937;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.outline-btn:hover {
+    background-color: #f9fafb;
+}
+
+.primary-btn {
+    padding: 0.5rem 1rem;
+    background-color: #0047FF;
+    color: white;
+    border: none;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.primary-btn:hover {
+    background-color: #003bd1;
+}
+.card-container {
+    display: flex;
+    flex-wrap: nowrap;
+    margin-top: 1rem;
+    width: 100%;
+}
+.app-card {
+    width:24% ;
+    background: white;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    transition: box-shadow 0.2s;
+}
+
+.app-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    right: 0.75rem;
+    display: flex;
+    justify-content: space-between;
+    font-size: 1rem;
+    color: #2563eb; 
+}
+
+.drag-icon {
+    cursor: grab;
+}
+
+
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.card-icon {
+    width: 40px;
+    height: 40px;
+    color: #2563eb;
+}
+
+.card-title {
+    margin-top: 0.5rem;
+    font-weight: 400;
+    color: #141340;
+    text-align: center;
+    font-size: 20px;
+}
+
+.card-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.edit-btn,
+.delete-btn {
+    padding: 0.5rem 0.5rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border: 1px solid transparent;
+    cursor: pointer;
+    display: flex;
+    gap: 0.5rem;
+    width: 49%;
+    justify-content: center;
+}
+
+.edit-btn {
+    background-color: white;
+    border: 1px solid #cbd5e1;
+    color: #1f2937;
+}
+
+.edit-btn:hover {
+    background-color: #f9fafb;
+}
+
+.delete-btn {
+    background-color: #EA4335;
+    color: white;
+}
+
+.delete-btn:hover {
+    background-color: #dc2626;
+}
+
+
+</style>
+<div class="breadcrumb">
+    <a href="#">Loan Applications</a>  <img src="icons/CaretRight.svg" alt="">
+    <span>All People</span>
+</div>
+
+<div class="header">
+    <div>
+        <h2>Applications</h2>
+        <div class="actions">
+        <button class="outline-btn">Change Splash Screen</button>
+        <button class="primary-btn">+ Add New Application</button>
+        </div>
+    </div>
+    <div class="card-container">
+        <div class="app-card">
+            <div class="card-header">
+        <span class="drag-icon"><img src="icons/ArrowsOutCardinal.svg" alt=""></span>
+        <span ><img src="icons/BlueTick.svg" alt=""></span>
+            </div>
+
+            <div class="card-body">
+        <img src="icons/Document.svg" alt="icon" class="card-icon" />
+        <h4 class="card-title">Quick Application</h4>
+            </div>
+
+            <div class="card-actions">
+                <button class="edit-btn"><img src="icons/PencilSimple.svg" alt=""> Edit</button>
+                <button class="delete-btn"><img src="icons/TrashSimple.svg" alt=""> Delete</button>
+            </div>
+        </div>
+        <div class="app-card">
+            <div class="card-header">
+        <span class="drag-icon"><img src="icons/ArrowsOutCardinal.svg" alt=""></span>
+        <span ><img src="icons/BlueTick.svg" alt=""></span>
+            </div>
+
+            <div class="card-body">
+        <img src="icons/Document.svg" alt="icon" class="card-icon" />
+        <h4 class="card-title">Full Application</h4>
+            </div>
+
+            <div class="card-actions">
+                <button class="edit-btn"><img src="icons/PencilSimple.svg" alt=""> Edit</button>
+                <button class="delete-btn"><img src="icons/TrashSimple.svg" alt=""> Delete</button>
+            </div>
+        </div>
+        <div class="app-card">
+            <div class="card-header">
+        <span class="drag-icon"><img src="icons/ArrowsOutCardinal.svg" alt=""></span>
+        <span ><img src="icons/BlueTick.svg" alt=""></span>
+            </div>
+
+            <div class="card-body">
+        <img src="icons/Document.svg" alt="icon" class="card-icon" />
+        <h4 class="card-title">Car Loan</h4>
+            </div>
+
+            <div class="card-actions">
+                <button class="edit-btn"><img src="icons/PencilSimple.svg" alt=""> Edit</button>
+                <button class="delete-btn"><img src="icons/TrashSimple.svg" alt=""> Delete</button>
+            </div>
+        </div>
+         <div class="app-card">
+            <div class="card-header">
+        <span class="drag-icon"><img src="icons/ArrowsOutCardinal.svg" alt=""></span>
+        <span ><img src="icons/BlueTick.svg" alt=""></span>
+            </div>
+
+            <div class="card-body">
+        <img src="icons/Document.svg" alt="icon" class="card-icon" />
+        <h4 class="card-title">Other Application</h4>
+            </div>
+
+            <div class="card-actions">
+                <button class="edit-btn"><img src="icons/PencilSimple.svg" alt=""> Edit</button>
+                <button class="delete-btn"><img src="icons/TrashSimple.svg" alt=""> Delete</button>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+

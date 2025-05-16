@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LendingPad.Bank")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ffa8b17f1a410d0c1273c5f9caac115a3b59d5cf")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ba47c4e43eda8333a1a69d65aedfd5c5ef00672f")]
 [assembly: System.Reflection.AssemblyProductAttribute("LendingPad.Bank")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LendingPad.Bank")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

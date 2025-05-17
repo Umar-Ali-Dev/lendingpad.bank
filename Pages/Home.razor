@@ -53,6 +53,96 @@
 
 
 
+
+<div class="breadcrumb">
+    <a href="#">Banks</a>
+</div>
+
+<div class="header">
+    <div class="heading-container">
+        <h2 class="mb-0">Onboarded Banks</h2>
+        <div class="actions">
+            <button class="primary-btn" @onclick="OpenModal">+ Onboard Bank</button>
+        </div>
+    </div>
+    <div class="card-container">
+        <a href="/details" class="app-card">
+            <span class="drag-icon"><img src="icons/ArrowsOutCardinal.svg" alt=""></span>
+            <div class="card-body">
+                <img src="icons/bankOfAmerica.png" alt="icon" class="card-icon" />
+                <h4 class="card-title">Bank Of America</h4>
+            </div>
+        </a>
+        <div class="app-card">
+            <span class="drag-icon"><img src="icons/ArrowsOutCardinal.svg" alt=""></span>
+            <div class="card-body">
+                <img src="icons/citiBank.png" alt="icon" class="card-icon" />
+                <h4 class="card-title">Citi Bank</h4>
+            </div>
+        </div>
+        <div class="app-card">
+            <span class="drag-icon"><img src="icons/ArrowsOutCardinal.svg" alt=""></span>
+            <div class="card-body">
+                <img src="icons/barclaysBank.png" alt="icon" class="card-icon" />
+                <h4 class="card-title">Barclays Bank</h4>
+            </div>
+        </div>
+        <div class="app-card">
+            <span class="drag-icon"><img src="icons/ArrowsOutCardinal.svg" alt=""></span>
+            <div class="card-body">
+                <img src="icons/barclaysBank.png" alt="icon" class="card-icon" />
+                <h4 class="card-title">Barclays Bank</h4>
+            </div>
+        </div>
+    </div>
+    @if (isModalOpen)
+    {
+        <div class="modal-overlay">
+            <div class="modal-content">
+                <h2 class="modal-title">Onboard Bank</h2>
+                <p class="mb-0">Please provide the information below to onboard a bank</p>
+
+                @if (imagePreviewUrl != null)
+                {
+                    <div class="image-preview-wrapper upload-box">
+                        <img src="@imagePreviewUrl" class="image-preview" />
+                        <button class="delete-image" @onclick="RemoveImage"><img src="icons/TrashSimple.svg" /></button>
+                    </div>
+                }
+                else
+                {
+                    <label class="upload-box">
+                        <img src="icons/CirclePlusIcon.svg" />
+                        <span>Drag & drop or upload bank logo</span>
+                        <InputFile OnChange="OnInputFileChange" accept="image/*" class="file-input" />
+                    </label>
+                }
+
+                <label>Enter Bank Name</label>
+                <input type="text" placeholder="Citi Bank" class="bank-input" />
+
+                <div class="modal-actions">
+                    <button class="primary-btn" @onclick="HandleAddBankAsync">Add</button>
+                    <button class="outline-btn" @onclick="CloseModal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    }
+    @if (showSuccessMessage)
+    {
+        <div class="success-modal">
+            <div class="success-content">
+                @* <img src="icons/success-tick.svg" alt="Success" width="60" /> *@
+                <h3>Successfull</h3>
+                <p>Bank has been onboarded successfully</p>
+            </div>
+        </div>
+    }
+
+
+</div>
+
+
 <style>
     .breadcrumb {
         font-size: 0.875rem;
@@ -319,90 +409,3 @@
 
 
 </style>
-<div class="breadcrumb">
-    <a href="#">Banks</a>
-</div>
-
-<div class="header">
-    <div class="heading-container">
-        <h2 class="mb-0">Onboarded Banks</h2>
-        <div class="actions">
-            <button class="primary-btn" @onclick="OpenModal">+ Onboard Bank</button>
-        </div>
-    </div>
-    <div class="card-container">
-        <a href="/details" class="app-card">
-            <span class="drag-icon"><img src="icons/ArrowsOutCardinal.svg" alt=""></span>
-            <div class="card-body">
-                <img src="icons/bankOfAmerica.png" alt="icon" class="card-icon" />
-                <h4 class="card-title">Bank Of America</h4>
-            </div>
-        </a>
-        <div class="app-card">
-            <span class="drag-icon"><img src="icons/ArrowsOutCardinal.svg" alt=""></span>
-            <div class="card-body">
-                <img src="icons/citiBank.png" alt="icon" class="card-icon" />
-                <h4 class="card-title">Citi Bank</h4>
-            </div>
-        </div>
-        <div class="app-card">
-            <span class="drag-icon"><img src="icons/ArrowsOutCardinal.svg" alt=""></span>
-            <div class="card-body">
-                <img src="icons/barclaysBank.png" alt="icon" class="card-icon" />
-                <h4 class="card-title">Barclays Bank</h4>
-            </div>
-        </div>
-        <div class="app-card">
-            <span class="drag-icon"><img src="icons/ArrowsOutCardinal.svg" alt=""></span>
-            <div class="card-body">
-                <img src="icons/barclaysBank.png" alt="icon" class="card-icon" />
-                <h4 class="card-title">Barclays Bank</h4>
-            </div>
-        </div>
-    </div>
-    @if (isModalOpen)
-    {
-        <div class="modal-overlay">
-            <div class="modal-content">
-                <h2 class="modal-title">Onboard Bank</h2>
-                <p class="mb-0">Please provide the information below to onboard a bank</p>
-
-                @if (imagePreviewUrl != null)
-                {
-                    <div class="image-preview-wrapper upload-box">
-                        <img src="@imagePreviewUrl" class="image-preview" />
-                        <button class="delete-image" @onclick="RemoveImage"><img src="icons/TrashSimple.svg" /></button>
-                    </div>
-                }
-                else
-                {
-                    <label class="upload-box">
-                        <img src="icons/CirclePlusIcon.svg" />
-                        <span>Drag & drop or upload bank logo</span>
-                        <InputFile OnChange="OnInputFileChange" accept="image/*" class="file-input" />
-                    </label>
-                }
-
-                <label>Enter Bank Name</label>
-                <input type="text" placeholder="Citi Bank" class="bank-input" />
-
-                <div class="modal-actions">
-                    <button class="primary-btn" @onclick="HandleAddBankAsync">Add</button>
-                    <button class="outline-btn" @onclick="CloseModal">Cancel</button>
-                </div>
-            </div>
-        </div>
-    }
-    @if (showSuccessMessage)
-    {
-        <div class="success-modal">
-            <div class="success-content">
-                @* <img src="icons/success-tick.svg" alt="Success" width="60" /> *@
-                <h3>Successfull</h3>
-                <p>Bank has been onboarded successfully</p>
-            </div>
-        </div>
-    }
-
-
-</div>

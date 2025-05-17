@@ -1,0 +1,516 @@
+@page "/details"
+@inject NavigationManager NavigationManager
+
+@code {
+   private string activeTab = "Applications";
+
+   void SetTab(string tab)
+   {
+      activeTab = tab;
+   }
+
+   private class LoanOfficer
+   {
+      public string Name { get; set; }
+      public string Designation { get; set; } = "Mortgage Loan Officer";
+      public string Phone { get; set; }
+      public string Fax { get; set; }
+      public string Email { get; set; }
+      public string Address { get; set; }
+      public string AvatarUrl { get; set; }
+   }
+
+   private List<LoanOfficer> loanOfficers = new()
+{
+new() { Name = "Ralph Edwards", Phone = "(805) 123-5243", Fax = "(505) 555-0125", Email = "thuhang.nute@gmail.com",
+Address = "30721 Russel Ranch...", AvatarUrl = "icons/Avatar.jpg" },
+new() { Name = "Jerome Bell", Phone = "(229) 555-0109", Fax = "(207) 555-0119", Email = "trungkienspktnd@gmail.com",
+Address = "3891 Ranchview Dr...", AvatarUrl = "icons/Avatar.jpg" },
+};
+
+   private int currentPage = 1;
+   private int itemsPerPage = 10;
+   private int TotalPages => (int)Math.Ceiling((double)loanOfficers.Count / itemsPerPage);
+
+   private IEnumerable<LoanOfficer> PaginatedLoanOfficers => loanOfficers
+   .Skip((currentPage - 1) * itemsPerPage)
+   .Take(itemsPerPage);
+
+   private void GoToPage(int page)
+   {
+      currentPage = page;
+   }
+
+   private void OnItemsPerPageChanged(ChangeEventArgs e)
+   {
+      if (int.TryParse(e.Value?.ToString(), out int newItemsPerPage))
+      {
+         itemsPerPage = newItemsPerPage;
+         currentPage = 1; // reset to first page
+      }
+   }
+
+}
+
+
+<style>
+   .breadcrumb {
+      font-size: 0.875rem;
+      color: #1f2937;
+      margin-bottom: 1rem;
+   }
+
+   .breadcrumb a {
+      color: #6b7280;
+      text-decoration: none;
+      margin-right: 0.25rem;
+      font-weight: 500;
+   }
+
+   .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #f5f7ff;
+      padding: 1rem 1.5rem;
+      border-radius: 0.5rem;
+      flex-direction: column;
+   }
+
+   .header .heading-container {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+   }
+
+   .header>div h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #141340;
+      font-size: 24px;
+   }
+
+   .tabs-container {
+      width: 100%;
+      display: flex;
+      border-bottom: 1px solid #EAECF0;
+      margin-top: 1rem;
+   }
+
+   .tab-button {
+      background: none;
+      border: none;
+      padding: 0rem 0rem 1rem;
+      margin-right: 1.5rem;
+      font-weight: 400;
+      font-size: 18px;
+      color: #585C7B;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+   }
+
+   .tab-button:hover {
+      color: #141340;
+   }
+
+   .tab-button.active-tab {
+      color: #141340;
+      font-weight: 700;
+      font-size: 18px;
+      border-bottom: 2px solid #0038FF;
+   }
+
+   .search-input-container {
+      padding: 0.5rem 1rem;
+      border: 1.5px solid #E5E5E5;
+      border-radius: 0.375rem;
+      font-size: 0.875rem;
+      color: #1f2937;
+      background-color: white;
+   }
+
+   .search-input-container .tab-input {
+      border: 0px;
+      outline: none;
+   }
+
+   .actions {
+      display: flex;
+      gap: 0.5rem;
+   }
+
+   .outline-btn {
+      padding: 0.5rem 1rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 0.375rem;
+      background-color: white;
+      color: #1f2937;
+      font-weight: 500;
+      cursor: pointer;
+   }
+
+   .outline-btn:hover {
+      background-color: #f9fafb;
+   }
+
+   .primary-btn {
+      padding: 0.5rem 1rem;
+      background-color: #0047FF;
+      color: white;
+      border: none;
+      border-radius: 0.375rem;
+      font-weight: 500;
+      cursor: pointer;
+   }
+
+   .primary-btn:hover {
+      background-color: #003bd1;
+   }
+
+   .card-container {
+      display: flex;
+      flex-wrap: nowrap;
+      margin-top: 1rem;
+      width: 100%;
+      gap: 1rem;
+   }
+
+   .app-card {
+      width: 24%;
+      background: white;
+      border-radius: 0.75rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      transition: box-shadow 0.2s;
+   }
+
+   .app-card:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+   }
+
+   .card-header {
+      position: absolute;
+      top: 0.75rem;
+      left: 0.75rem;
+      right: 0.75rem;
+      display: flex;
+      justify-content: space-between;
+      font-size: 1rem;
+      color: #2563eb;
+   }
+
+   .drag-icon {
+      cursor: grab;
+   }
+
+
+
+   .card-body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
+   }
+
+   .card-icon {
+      width: 40px;
+      height: 40px;
+      color: #2563eb;
+   }
+
+   .card-title {
+      margin-top: 0.5rem;
+      font-weight: 400;
+      color: #141340;
+      text-align: center;
+      font-size: 20px;
+   }
+
+   .card-actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.5rem;
+      width: 100%;
+   }
+
+   .edit-btn,
+   .delete-btn {
+      padding: 0.5rem 0.5rem;
+      border-radius: 0.375rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      border: 1px solid transparent;
+      cursor: pointer;
+      display: flex;
+      gap: 0.5rem;
+      width: 49%;
+      justify-content: center;
+   }
+
+   .edit-btn {
+      background-color: white;
+      border: 1px solid #cbd5e1;
+      color: #1f2937;
+   }
+
+   .edit-btn:hover {
+      background-color: #f9fafb;
+   }
+
+   .delete-btn {
+      background-color: #EA4335;
+      color: white;
+   }
+
+   .delete-btn:hover {
+      background-color: #dc2626;
+   }
+
+   .loan-officer-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      font-size: 0.875rem;
+   }
+
+   .loan-officer-table th,
+   .loan-officer-table td {
+      border-bottom: 1px solid #E5E5E5;
+      padding: 0.75rem;
+      text-align: left;
+   }
+
+   .loan-officer-table th {
+      background-color: #f5f7ff;
+      font-weight: 600;
+      color: #141340;
+   }
+
+   .pagination {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+   }
+
+   .pagination button {
+      border: none;
+      padding: 0.5rem 0.75rem;
+      background-color: #f0f0f0;
+      color: #333;
+      cursor: pointer;
+      border-radius: 0.375rem;
+   }
+
+   .pagination button.active {
+      background-color: #0047FF;
+      color: white;
+   }
+
+   .avatar {
+      border-radius: 9999px;
+      width: 24px;
+      height: 24px;
+      object-fit: cover;
+   }
+
+   .pagination-controls {
+      width: 100%;
+      display: flex;
+      justify-content: end;
+      align-items: center;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+   }
+
+   .items-per-page {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+   }
+
+   .dropdown {
+      padding: 0.4rem 0.6rem;
+      border-radius: 0.5rem;
+      border: 1px solid #EAECF0;
+      background-color: #fff;
+      font-size: 0.875rem;
+      color: #585C7B;
+      outline: none;
+   }
+
+   .pagination-buttons button {
+      margin: 0 0.25rem;
+   }
+
+   .previous-button {
+      background-color: #0038FF;
+      border-radius: 8px;
+      outline: none;
+      border: none;
+      width: 42px;
+      height: 42px;
+   }
+
+   .previous-icon {
+      rotate: 180deg;
+   }
+</style>
+<div class="breadcrumb">
+   <a href="/">Bank Of America</a> <img src="icons/CaretRight.svg" alt="" />
+   <span>Details</span>
+</div>
+
+<div class="header">
+   <div class="heading-container">
+      <h2>Details</h2>
+      <div class="actions">
+         @if (activeTab == "Loan Officers")
+         {
+            <div class="search-input-container">
+               <img src="icons/SearchIcon.svg" alt="search" width="24" height="24" />
+               <input type="text" placeholder="Search keywords" class="tab-input" />
+            </div>
+         }
+         else
+         {
+            <button class="outline-btn">Change Splash Screen & Theme</button>
+         }
+         <button class="primary-btn"><img src="icons/PlusIcon.svg" alt="PlusIcon" width="16" height="16" /></button>
+      </div>
+   </div>
+   <div class="tabs-container">
+      <button class="tab-button @(activeTab == "Applications" ? "active-tab" : "")"
+         @onclick='() => SetTab("Applications")'>Applications</button>
+      <button class="tab-button @(activeTab == "Loan Officers" ? "active-tab" : "")"
+         @onclick='() => SetTab("Loan Officers")'>Loan Officers</button>
+   </div>
+   @if (activeTab == "Loan Officers")
+   {
+      <table class="loan-officer-table">
+         <thead>
+            <tr>
+               <th>Names</th>
+               <th>Designation</th>
+               <th>Phone Number</th>
+               <th>Fax</th>
+               <th>Email</th>
+               <th>Address</th>
+            </tr>
+         </thead>
+         <tbody>
+            @foreach (var officer in PaginatedLoanOfficers)
+            {
+               <tr>
+                  <td>
+                     <img src="@officer.AvatarUrl" alt="avatar" width="24" height="24" class="avatar" />
+                     @officer.Name
+                  </td>
+                  <td>@officer.Designation</td>
+                  <td>@officer.Phone</td>
+                  <td>@officer.Fax</td>
+                  <td>@officer.Email</td>
+                  <td>@officer.Address</td>
+               </tr>
+            }
+         </tbody>
+      </table>
+
+      <div class="pagination-controls">
+         <div class="items-per-page">
+            <select id="itemsPerPage" @onchange="OnItemsPerPageChanged" class="dropdown">
+               <option value="10" selected="@((itemsPerPage == 10).ToString())">10 Items Per Page</option>
+               <option value="20" selected="@((itemsPerPage == 20).ToString())">20 Items Per Page</option>
+            </select>
+         </div>
+
+         <div class="pagination-buttons">
+            <button @onclick="() => GoToPage(currentPage - 1)" disabled="@((currentPage == 1))"
+               class="previous-button"><img src="icons/WhiteDropdown.svg" class="previous-icon" /></button>
+            @for (int i = 1; i <= TotalPages; i++)
+            {
+               <button class="@(i == currentPage ? "active" : "")" @onclick="() => GoToPage(i)">@i</button>
+            }
+            <button @onclick="() => GoToPage(currentPage + 1)" disabled="@((currentPage == TotalPages))"
+               class="previous-button"><img src="icons/WhiteDropdown.svg" /></button>
+         </div>
+      </div>
+   }
+   @if (activeTab == "Applications")
+   {
+      <div class="card-container">
+         <div class="app-card">
+            <div class="card-header">
+               <span class="drag-icon"><img src="icons/ArrowsOutCardinal.svg" alt=""></span>
+               <span><img src="icons/BlueTick.svg" alt=""></span>
+            </div>
+
+            <div class="card-body">
+               <img src="icons/Document.svg" alt="icon" class="card-icon" />
+               <h4 class="card-title">Full Application</h4>
+            </div>
+
+            <div class="card-actions">
+               <button class="edit-btn"><img src="icons/PencilSimple.svg" alt=""> Edit</button>
+               <button class="delete-btn"><img src="icons/TrashSimple.svg" alt=""> Delete</button>
+            </div>
+         </div>
+         <div class="app-card">
+            <div class="card-header">
+               <span class="drag-icon"><img src="icons/ArrowsOutCardinal.svg" alt=""></span>
+               <span><img src="icons/BlueTick.svg" alt=""></span>
+            </div>
+
+            <div class="card-body">
+               <img src="icons/Files.svg" alt="icon" class="card-icon" />
+               <h4 class="card-title">Full Application</h4>
+            </div>
+
+            <div class="card-actions">
+               <button class="edit-btn"><img src="icons/PencilSimple.svg" alt=""> Edit</button>
+               <button class="delete-btn"><img src="icons/TrashSimple.svg" alt=""> Delete</button>
+            </div>
+         </div>
+         <div class="app-card">
+            <div class="card-header">
+               <span class="drag-icon"><img src="icons/ArrowsOutCardinal.svg" alt=""></span>
+               <span><img src="icons/BlueTick.svg" alt=""></span>
+            </div>
+
+            <div class="card-body">
+               <img src="icons/Car.svg" alt="icon" class="card-icon" />
+               <h4 class="card-title">Car Loan</h4>
+            </div>
+
+            <div class="card-actions">
+               <button class="edit-btn"><img src="icons/PencilSimple.svg" alt=""> Edit</button>
+               <button class="delete-btn"><img src="icons/TrashSimple.svg" alt=""> Delete</button>
+            </div>
+         </div>
+         <div class="app-card">
+            <div class="card-header">
+               <span class="drag-icon"><img src="icons/ArrowsOutCardinal.svg" alt=""></span>
+               <span><img src="icons/BlueTick.svg" alt=""></span>
+            </div>
+
+            <div class="card-body">
+               <img src="icons/Note.svg" alt="icon" class="card-icon" />
+               <h4 class="card-title">Other Application</h4>
+            </div>
+
+            <div class="card-actions">
+               <button class="edit-btn"><img src="icons/PencilSimple.svg" alt=""> Edit</button>
+               <button class="delete-btn"><img src="icons/TrashSimple.svg" alt=""> Delete</button>
+            </div>
+         </div>
+
+      </div>
+   }
+
+</div>

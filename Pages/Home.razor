@@ -1,257 +1,408 @@
 ﻿@page "/"
 @inject NavigationManager NavigationManager
 
+@code {
+    private bool isModalOpen = false;
+    private bool showSuccessMessage = false;
+
+    private IBrowserFile uploadedFile;
+    private string imagePreviewUrl;
+
+    private void OpenModal() => isModalOpen = true;
+
+    private void CloseModal()
+    {
+        isModalOpen = false;
+        uploadedFile = null;
+        imagePreviewUrl = null;
+    }
+
+    private async Task OnInputFileChange(InputFileChangeEventArgs e)
+    {
+        uploadedFile = e.File;
+        var buffer = new byte[uploadedFile.Size];
+        await uploadedFile.OpenReadStream().ReadAsync(buffer);
+        imagePreviewUrl = $"data:{uploadedFile.ContentType};base64,{Convert.ToBase64String(buffer)}";
+    }
+
+    private void RemoveImage()
+    {
+        uploadedFile = null;
+        imagePreviewUrl = null;
+    }
+
+    private async Task HandleAddBankAsync()
+    {
+        if (uploadedFile != null)
+        {
+            showSuccessMessage = true;
+            isModalOpen = false;
+
+            // Wait for 2 seconds then hide success
+            await Task.Delay(2000);
+            showSuccessMessage = false;
+
+            // Reset form
+            uploadedFile = null;
+            imagePreviewUrl = null;
+
+            StateHasChanged();
+        }
+    }
+}
+
+
+
 <style>
     .breadcrumb {
-    font-size: 0.875rem;
-    color: #1f2937; 
-    margin-bottom: 1rem;
-}
+        font-size: 0.875rem;
+        color: #1f2937;
+        margin-bottom: 1rem;
+    }
 
-.breadcrumb a {
-    color: #6b7280; 
-    text-decoration: none;
-    margin-right: 0.25rem;
-}
+    .breadcrumb a {
+        color: #6b7280;
+        text-decoration: none;
+        margin-right: 0.25rem;
+    }
 
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #f5f7ff; 
-    padding: 1rem 1.5rem;
-    border-radius: 0.5rem;
-    flex-direction: column;
-}
-.header > div {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-}
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #f5f7ff;
+        padding: 1.5rem 1.5rem 4.5rem;
+        border-radius: 0.75rem;
+        flex-direction: column;
+    }
 
-.header > div h2 {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: #141340;
-    font-size: 24px;
-}
+    .heading-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
 
-.actions {
-    display: flex;
-    gap: 0.5rem;
-}
+    .header>div h2 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #141340;
+        font-size: 24px;
+    }
 
-.outline-btn {
-    padding: 0.5rem 1rem;
-    border: 1px solid #cbd5e1;
-    border-radius: 0.375rem;
-    background-color: white;
-    color: #1f2937;
-    font-weight: 500;
-    cursor: pointer;
-}
+    .actions {
+        display: flex;
+        gap: 0.5rem;
+    }
 
-.outline-btn:hover {
-    background-color: #f9fafb;
-}
+    .outline-btn {
+        padding: 0.5rem 1rem;
+        border: 1px solid #cbd5e1;
+        border-radius: 0.375rem;
+        background-color: white;
+        color: #1f2937;
+        font-weight: 500;
+        cursor: pointer;
+    }
 
-.primary-btn {
-    padding: 0.5rem 1rem;
-    background-color: #0047FF;
-    color: white;
-    border: none;
-    border-radius: 0.375rem;
-    font-weight: 500;
-    cursor: pointer;
-}
+    .outline-btn:hover {
+        background-color: #f9fafb;
+    }
 
-.primary-btn:hover {
-    background-color: #003bd1;
-}
-.card-container {
-    display: flex;
-    flex-wrap: nowrap;
-    margin-top: 1rem;
-    width: 100%;
-}
-.app-card {
-    width:24% ;
-    background: white;
-    border-radius: 0.75rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    position: relative;
-    transition: box-shadow 0.2s;
-}
+    .primary-btn {
+        padding: 0.5rem 1rem;
+        background-color: #0047FF;
+        color: white;
+        border: none;
+        border-radius: 0.375rem;
+        font-weight: 500;
+        cursor: pointer;
+    }
 
-.app-card:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
+    .primary-btn:hover {
+        background-color: #003bd1;
+    }
 
-.card-header {
-    position: absolute;
-    top: 0.75rem;
-    left: 0.75rem;
-    right: 0.75rem;
-    display: flex;
-    justify-content: space-between;
-    font-size: 1rem;
-    color: #2563eb; 
-}
+    .card-container {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: nowrap;
+        margin-top: 1rem;
+        width: 100%;
+    }
 
-.drag-icon {
-    cursor: grab;
-}
+    .app-card {
+        width: 24%;
+        background: white;
+        border-radius: 0.75rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: relative;
+        transition: box-shadow 0.2s;
+        text-decoration: none;
+    }
+
+    .app-card:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+        position: absolute;
+        top: 0.75rem;
+        left: 0.75rem;
+        right: 0.75rem;
+        display: flex;
+        justify-content: space-between;
+        font-size: 1rem;
+        color: #2563eb;
+    }
+
+    .drag-icon {
+        cursor: grab;
+    }
 
 
 
-.card-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 2.5rem;
-    margin-bottom: 1rem;
-}
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
-.card-icon {
-    width: 40px;
-    height: 40px;
-    color: #2563eb;
-}
+    .card-icon {
+        width: 100px;
+        height: 100px;
+        object-fit: contain;
+        object-position: center;
+    }
 
-.card-title {
-    margin-top: 0.5rem;
-    font-weight: 400;
-    color: #141340;
-    text-align: center;
-    font-size: 20px;
-}
+    .card-title {
+        margin-top: 0.5rem;
+        font-weight: 400;
+        color: #141340;
+        text-align: center;
+        font-size: 20px;
+        text-decoration: none;
+    }
 
-.card-actions {
-    display: flex;
-    justify-content: space-between;
-    gap: 0.5rem;
-    width: 100%;
-}
+    @* modal style *@
 
-.edit-btn,
-.delete-btn {
-    padding: 0.5rem 0.5rem;
-    border-radius: 0.375rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-    border: 1px solid transparent;
-    cursor: pointer;
-    display: flex;
-    gap: 0.5rem;
-    width: 49%;
-    justify-content: center;
-}
+    .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.4);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
 
-.edit-btn {
-    background-color: white;
-    border: 1px solid #cbd5e1;
-    color: #1f2937;
-}
+    .modal-content {
+        background-color: white;
+        padding: 2rem;
+        border-radius: 1rem;
+        width: 498px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        text-align: left;
+    }
 
-.edit-btn:hover {
-    background-color: #f9fafb;
-}
+    .modal-title {
+        font-weight: 700;
+        color: #141340;
+        font-size: 20px;
+    }
 
-.delete-btn {
-    background-color: #EA4335;
-    color: white;
-}
 
-.delete-btn:hover {
-    background-color: #dc2626;
-}
+    .bank-input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        outline: none;
+    }
+
+    .modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.75rem;
+    }
+
+    .upload-box {
+        background-color: #EAECF0;
+        border-radius: 0.75rem;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        color: #6b7280;
+        cursor: pointer;
+        position: relative;
+    }
+
+    .file-input {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    .image-preview-wrapper {
+        position: relative;
+        width: 100%;
+        text-align: center;
+        z-index: 10;
+    }
+
+    .image-preview {
+        max-width: 100%;
+        height: 200px;
+        border-radius: 0.75rem;
+        object-fit: contain;
+    }
+
+    .delete-image {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: #dc2626;
+        border: none;
+        border-radius: 6px;
+        width: 32px;
+        height: 32px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .success-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+    }
+
+    .success-content {
+        background: white;
+        padding: 2rem;
+        border-radius: 1rem;
+        text-align: center;
+        max-width: 400px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .success-content h3 {
+        font-size: 1.5rem;
+        color: #141340;
+        margin-top: 1rem;
+        font-weight: bold;
+    }
+
+    .success-content p {
+        margin-top: 0.5rem;
+        color: #6b7280;
+    }
 
 
 </style>
 <div class="breadcrumb">
-    <a href="#">Loan Applications</a>  <img src="icons/CaretRight.svg" alt="">
-    <span>All People</span>
+    <a href="#">Banks</a>
 </div>
 
 <div class="header">
-    <div>
-        <h2>Applications</h2>
+    <div class="heading-container">
+        <h2 class="mb-0">Onboarded Banks</h2>
         <div class="actions">
-        <button class="outline-btn">Change Splash Screen</button>
-        <button class="primary-btn">+ Add New Application</button>
+            <button class="primary-btn" @onclick="OpenModal">+ Onboard Bank</button>
         </div>
     </div>
     <div class="card-container">
-        <div class="app-card">
-            <div class="card-header">
-        <span class="drag-icon"><img src="icons/ArrowsOutCardinal.svg" alt=""></span>
-        <span ><img src="icons/BlueTick.svg" alt=""></span>
-            </div>
-
+        <a href="/details" class="app-card">
+            <span class="drag-icon"><img src="icons/ArrowsOutCardinal.svg" alt=""></span>
             <div class="card-body">
-                <img src="icons/Document.svg" alt="icon" class="card-icon" />
-                <h4 class="card-title">Full Application</h4>
+                <img src="icons/bankOfAmerica.png" alt="icon" class="card-icon" />
+                <h4 class="card-title">Bank Of America</h4>
             </div>
-
-            <div class="card-actions">
-                <button class="edit-btn"><img src="icons/PencilSimple.svg" alt=""> Edit</button>
-                <button class="delete-btn"><img src="icons/TrashSimple.svg" alt=""> Delete</button>
+        </a>
+        <div class="app-card">
+            <span class="drag-icon"><img src="icons/ArrowsOutCardinal.svg" alt=""></span>
+            <div class="card-body">
+                <img src="icons/citiBank.png" alt="icon" class="card-icon" />
+                <h4 class="card-title">Citi Bank</h4>
             </div>
         </div>
         <div class="app-card">
-            <div class="card-header">
-        <span class="drag-icon"><img src="icons/ArrowsOutCardinal.svg" alt=""></span>
-        <span ><img src="icons/BlueTick.svg" alt=""></span>
-            </div>
-
+            <span class="drag-icon"><img src="icons/ArrowsOutCardinal.svg" alt=""></span>
             <div class="card-body">
-        <img src="icons/Files.svg" alt="icon" class="card-icon" />
-        <h4 class="card-title">Full Application</h4>
-            </div>
-
-            <div class="card-actions">
-                <button class="edit-btn"><img src="icons/PencilSimple.svg" alt=""> Edit</button>
-                <button class="delete-btn"><img src="icons/TrashSimple.svg" alt=""> Delete</button>
+                <img src="icons/barclaysBank.png" alt="icon" class="card-icon" />
+                <h4 class="card-title">Barclays Bank</h4>
             </div>
         </div>
         <div class="app-card">
-            <div class="card-header">
-        <span class="drag-icon"><img src="icons/ArrowsOutCardinal.svg" alt=""></span>
-        <span ><img src="icons/BlueTick.svg" alt=""></span>
-            </div>
-
+            <span class="drag-icon"><img src="icons/ArrowsOutCardinal.svg" alt=""></span>
             <div class="card-body">
-        <img src="icons/Car.svg" alt="icon" class="card-icon" />
-        <h4 class="card-title">Car Loan</h4>
-            </div>
-
-            <div class="card-actions">
-                <button class="edit-btn"><img src="icons/PencilSimple.svg" alt=""> Edit</button>
-                <button class="delete-btn"><img src="icons/TrashSimple.svg" alt=""> Delete</button>
+                <img src="icons/barclaysBank.png" alt="icon" class="card-icon" />
+                <h4 class="card-title">Barclays Bank</h4>
             </div>
         </div>
-         <div class="app-card">
-            <div class="card-header">
-        <span class="drag-icon"><img src="icons/ArrowsOutCardinal.svg" alt=""></span>
-        <span ><img src="icons/BlueTick.svg" alt=""></span>
-            </div>
-
-            <div class="card-body">
-        <img src="icons/Note.svg" alt="icon" class="card-icon" />
-        <h4 class="card-title">Other Application</h4>
-            </div>
-
-            <div class="card-actions">
-                <button class="edit-btn"><img src="icons/PencilSimple.svg" alt=""> Edit</button>
-                <button class="delete-btn"><img src="icons/TrashSimple.svg" alt=""> Delete</button>
-            </div>
-        </div>
-        
     </div>
+    @if (isModalOpen)
+    {
+        <div class="modal-overlay">
+            <div class="modal-content">
+                <h2 class="modal-title">Onboard Bank</h2>
+                <p class="mb-0">Please provide the information below to onboard a bank</p>
+
+                @if (imagePreviewUrl != null)
+                {
+                    <div class="image-preview-wrapper upload-box">
+                        <img src="@imagePreviewUrl" class="image-preview" />
+                        <button class="delete-image" @onclick="RemoveImage"><img src="icons/TrashSimple.svg" /></button>
+                    </div>
+                }
+                else
+                {
+                    <label class="upload-box">
+                        <img src="icons/CirclePlusIcon.svg" />
+                        <span>Drag & drop or upload bank logo</span>
+                        <InputFile OnChange="OnInputFileChange" accept="image/*" class="file-input" />
+                    </label>
+                }
+
+                <label>Enter Bank Name</label>
+                <input type="text" placeholder="Citi Bank" class="bank-input" />
+
+                <div class="modal-actions">
+                    <button class="primary-btn" @onclick="HandleAddBankAsync">Add</button>
+                    <button class="outline-btn" @onclick="CloseModal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    }
+    @if (showSuccessMessage)
+    {
+        <div class="success-modal">
+            <div class="success-content">
+                @* <img src="icons/success-tick.svg" alt="Success" width="60" /> *@
+                <h3>Successfull</h3>
+                <p>Bank has been onboarded successfully</p>
+            </div>
+        </div>
+    }
+
+
 </div>
-
-

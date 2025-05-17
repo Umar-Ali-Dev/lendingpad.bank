@@ -163,27 +163,27 @@ Address = "3891 Ranchview Dr...", AvatarUrl = "icons/Avatar.jpg" },
       <div class="pagination-controls">
          <div class="items-per-page">
             <select id="itemsPerPage" @onchange="OnItemsPerPageChanged" class="dropdown">
-               <option value="10" selected="@((itemsPerPage == 10).ToString())">10 Items Per Page</option>
-               <option value="20" selected="@((itemsPerPage == 20).ToString())">20 Items Per Page</option>
+               <option class="dropdown-option" value="10" selected="@((itemsPerPage == 10).ToString())">10 Items Per Page</option>
+               <option class="dropdown-option" value="20" selected="@((itemsPerPage == 20).ToString())">20 Items Per Page</option>
             </select>
          </div>
 
          <div class="pagination-buttons">
             <button @onclick="() => GoToPage(currentPage - 1)" disabled="@((currentPage == 1))"
-               class="previous-button"><img src="icons/WhiteDropdown.svg" class="previous-icon" /></button>
+               class="previous-button"><img src="@(currentPage == 1 ? "icons/BlueArrow.svg" : "icons/WhiteDropdown.svg")" class="previous-icon @(currentPage == 1 ? "rotate-180" : "")" /></button>
             @for (int i = 1; i <= TotalPages; i++)
             {
-               <button class="@(i == currentPage ? "active" : "")" @onclick="() => GoToPage(i)">@i</button>
+               <button class="@(i == currentPage ? "active" : "") page-number" @onclick="() => GoToPage(i)">@i</button>
             }
             <button @onclick="() => GoToPage(currentPage + 1)" disabled="@((currentPage == TotalPages))"
-               class="previous-button"><img src="icons/WhiteDropdown.svg" /></button>
+               class="next-button"><img src="@(currentPage == TotalPages ? "icons/BlueArrow.svg" : "icons/WhiteDropdown.svg")" class="@(currentPage == TotalPages ? "rotate-180" : "")" /></button>
          </div>
       </div>
    }
    @if (activeTab == "Applications")
    {
       <div class="card-container">
-         <div class="app-card">
+         <a href="/details/splash" class="app-card">
             <div class="card-header">
                <span class="drag-icon"><img src="icons/ArrowsOutCardinal.svg" alt=""></span>
                <span><img src="icons/BlueTick.svg" alt=""></span>
@@ -198,7 +198,7 @@ Address = "3891 Ranchview Dr...", AvatarUrl = "icons/Avatar.jpg" },
                <button class="edit-btn"><img src="icons/PencilSimple.svg" alt=""> Edit</button>
                <button class="delete-btn"><img src="icons/TrashSimple.svg" alt=""> Delete</button>
             </div>
-         </div>
+         </a>
          <div class="app-card">
             <div class="card-header">
                <span class="drag-icon"><img src="icons/ArrowsOutCardinal.svg" alt=""></span>
@@ -432,6 +432,7 @@ Address = "3891 Ranchview Dr...", AvatarUrl = "icons/Avatar.jpg" },
       justify-content: space-between;
       position: relative;
       transition: box-shadow 0.2s;
+      text-decoration: none;
    }
 
    .app-card:hover {
@@ -589,6 +590,7 @@ Address = "3891 Ranchview Dr...", AvatarUrl = "icons/Avatar.jpg" },
       font-size: 0.875rem;
       color: #585C7B;
       outline: none;
+      height: 42px;
    }
 
    .pagination-buttons button {
@@ -602,6 +604,42 @@ Address = "3891 Ranchview Dr...", AvatarUrl = "icons/Avatar.jpg" },
       border: none;
       width: 42px;
       height: 42px;
+   }
+   .page-number {
+      height: 42px;
+      width: 42px;
+      border: 1px solid #EAECF0;
+      background-color: transparent;
+      border-radius: 8px;
+      color: #141340;
+   }
+
+   .page-number.active {
+      border: 1px solid #0038FF;
+      color: #0038FF;
+      font-weight: 500;
+      border-radius: 8px;
+   }
+
+   .previous-button,
+   .next-button {
+      background-color: #0047FF;
+      color: white;
+      border: none;
+      border-radius: 0.375rem;
+      padding: 0.5rem;
+      cursor: pointer;
+      width: 42px;
+   }
+
+   .previous-button:disabled,
+   .next-button:disabled {
+      background-color: #d1d5db;
+      cursor: not-allowed;
+      opacity: 0.6;
+   }
+   .rotate-180 {
+      transform: rotate(180deg);
    }
 
    .previous-icon {

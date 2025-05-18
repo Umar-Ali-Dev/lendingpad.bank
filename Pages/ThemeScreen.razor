@@ -3,149 +3,274 @@
 @using Microsoft.AspNetCore.Components.Forms
 
 <div class="breadcrumb">
-    <a href="/">Bank Of America</a> <img src="icons/CaretRight.svg" alt="" />
-    <a href="/details">Details</a> <img src="icons/CaretRight.svg" alt="" />
-    <span>Splash & Theme</span>
+   <a href="/">Bank Of America</a> <img src="icons/CaretRight.svg" alt="" />
+   <a href="/details">Details</a> <img src="icons/CaretRight.svg" alt="" />
+   <span>Splash & Theme</span>
 </div>
 
 <div class="splash-container">
-    <div class="editor-panel">
-        <h2 class="page-heading">Splash Screen</h2>
+   <div class="editor-panel">
+      <h2 class="page-heading">Custom Application</h2>
 
-        <h4 class="page-subtitle">Add Bank Logo</h4>
+      <h4 class="page-subtitle">Add Bank Logo</h4>
 
-        <InputFile style="display: none;" id="fileInput" OnChange="@HandleFileChange" accept=".svg,.png,.jpg,.jpeg" />
+      <InputFile style="display: none;" id="fileInput" OnChange="@HandleFileChange" accept=".svg,.png,.jpg,.jpeg" />
 
-        <div class="custom-file-upload" @onclick="TriggerFileInput">
-            <img src="icons/UploadIcon.svg" alt="">
-            <span>Choose a file to upload</span>
-        </div>
+      <div class="custom-file-upload" @onclick="TriggerFileInput">
+         <img src="icons/UploadIcon.svg" alt="">
+         <span>Choose a file to upload</span>
+      </div>
 
-        <label>Select Background Color</label>
-        <input type="range" min="0" max="360" @bind="Hue" class="color-range" />
+      <div class="colors-container">
+         <div class="bg-color-container">
+            <label>Select Background Color</label>
+            <input type="range" min="0" max="360" @bind="Hue" class="color-range" />
 
-        <div class="color-code-container">
-            <label class="color-code-text">Opacity</label>
-            <input type="number" min="0" max="100" @bind="Opacity" class="color-code-input" />
-        </div>
-
-        <div class="color-code-container">
-            <label class="color-code-text">Color Code</label>
-            <input type="text" readonly value="@BackgroundColor" class="color-code-input" />
-        </div>
-
-        <label>Select Text Color</label>
-        <input type="range" min="0" max="360" @bind="TextHue" class="color-range" />
-
-        <div class="color-code-container">
-            <label class="color-code-text">Opacity</label>
-            <input type="number" min="0" max="100" @bind="TextOpacity" class="color-code-input" />
-        </div>
-
-        <div class="color-code-container">
-            <label class="color-code-text">Color Code</label>
-            <input type="text" readonly value="@TextColor" class="color-code-input" />
-        </div>
-    </div>
-
-    <div class="preview-container">
-        <h3 class="preview-heading">Preview</h3>
-        <div class="preview-panel">
-            <div class="splash-preview" style="background-color:@BackgroundColorWithOpacity">
-                @if (!string.IsNullOrEmpty(ImageDataUrl))
-                {
-                    <img src="@ImageDataUrl" class="logo" />
-                }
-                <p style="color:@TextColorWithOpacity" class="preview-title">Quick Application</p>
-                <button class="preview-button" style="background-color:@TextColorWithOpacity; color:white;">Next</button>
+            <div class="color-code-container">
+               <label class="color-code-text">Opacity</label>
+               <input type="number" min="0" max="100" @bind="Opacity" class="color-code-input" />
             </div>
-        </div>
-    </div>
+
+            <div class="color-code-container">
+               <label class="color-code-text">Color Code</label>
+               <input type="text" readonly value="@BackgroundColor" class="color-code-input" />
+            </div>
+         </div>
+
+         <div class="bg-color-container">
+            <label>Select Text Color</label>
+            <input type="range" min="0" max="360" @bind="TextHue" class="color-range" />
+
+            <div class="color-code-container">
+               <label class="color-code-text">Opacity</label>
+               <input type="number" min="0" max="100" @bind="TextOpacity" class="color-code-input" />
+            </div>
+
+            <div class="color-code-container">
+               <label class="color-code-text">Color Code</label>
+               <input type="text" readonly value="@TextColor" class="color-code-input" />
+            </div>
+         </div>
+      </div>
+
+      <div>
+         <h4 class="buttons-heading">Select Button Style</h4>
+         <div class="button-style-options">
+            <label class="radio-option">
+               <input type="radio" name="buttonStyle" value="rounded" checked="@("rounded" == SelectedButtonStyle)"
+                  @onchange="@(() => SelectedButtonStyle = "rounded")" class="radio-btn" />
+               <button class="style-button rounded-button">Next</button>
+            </label>
+            <label class="radio-option">
+               <input type="radio" name="buttonStyle" value="square" checked="@("square" == SelectedButtonStyle)"
+                  @onchange="@(() => SelectedButtonStyle = "square")" class="radio-btn" />
+               <button class="style-button square-button">Next</button>
+            </label>
+         </div>
+      </div>
+      <div>
+         <h4 class="buttons-heading">Select Font Style</h4>
+         <div class="font-style-container">
+            <div class="font-style-item">
+               <label for="fontSelect">Select Font</label>
+               <select id="fontSelect" class="font-select" @bind="SelectedFontFamily">
+                  <option>Acumin Pro</option>
+                  <option>Segoe UI</option>
+                  <option>Roboto</option>
+               </select>
+            </div>
+            <div class="font-style-item">
+               <label for="fontWeight">Font Weight</label>
+               <select id="fontWeight" class="font-select" @bind="SelectedFontWeight">
+                  <option>Regular</option>
+                  <option>Bold</option>
+                  <option>Light</option>
+               </select>
+            </div>
+            <div class="font-style-item">
+               <label for="fontSize">Font Size</label>
+               <select id="fontSize" class="font-select" @bind="SelectedFontSize">
+                  <option>24</option>
+                  <option>20</option>
+                  <option>16</option>
+               </select>
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <div class="preview-container">
+      <h3 class="preview-heading">Preview</h3>
+      @* <div class="preview-panel">
+         <div class="splash-preview" style="background-color:@BackgroundColorWithOpacity">
+            @if (!string.IsNullOrEmpty(ImageDataUrl))
+            {
+               <img src="@ImageDataUrl" class="logo" />
+            }
+            <p style="color:@TextColorWithOpacity" class="preview-title">Quick Application</p>
+            <button class="preview-button @(SelectedButtonStyle == "rounded" ? "rounded-button" : "square-button")"
+               style="background-color:@TextColorWithOpacity; color:white; font-family:@SelectedFontFamily; font-weight:@SelectedFontWeight.ToLower(); font-size:@SelectedFontSize;">Next</button>
+         </div>
+      </div> *@
+
+      <div class="preview-panel">
+         <div class="device-frame">
+            <div class="device-header">
+               <button class="back-btn">
+                  <img src="icons/WhiteDropdown.svg" alt="Back" />
+               </button>
+               <span class="header-title">Quick Application</span>
+            </div>
+
+            @* <div class="progress-tracker">
+               @foreach (var step in new[] { "Property", "Income", "Asset", "Credit report", "Expenses" })
+               {
+                  <div class="step @(step == "Property" ? "active" : "")">
+                     <span class="circle"></span>
+                     <span class="label">@step</span>
+                  </div>
+               }
+            </div> *@
+
+            <div class="timeline-horizontal mb-4 show-md-up">
+               <div class="tl-step active">
+                  <div class="tl-dot active">
+                     <div class="tl-inner-dot"></div>
+                  </div>
+                  <span>Property</span>
+               </div>
+               <div class="tl-step">
+                  <div class="tl-dot">
+                     <div class="tl-inner-dot"></div>
+                  </div>
+                  <span>Income</span>
+               </div>
+               <div class="tl-step">
+                  <div class="tl-dot">
+                     <div class="tl-inner-dot"></div>
+                  </div>
+                  <span>Asset</span>
+               </div>
+               <div class="tl-step">
+                  <div class="tl-dot">
+                     <div class="tl-inner-dot"></div>
+                  </div>
+                  <span>Credit Report</span>
+               </div>
+               <div class="tl-step">
+                  <div class="tl-dot">
+                     <div class="tl-inner-dot"></div>
+                  </div>
+                  <span>Expenses</span>
+               </div>
+            </div>
+
+            <div class="splash-preview" style="background-color:@BackgroundColorWithOpacity">
+               @if (!string.IsNullOrEmpty(ImageDataUrl))
+               {
+                  <img src="@ImageDataUrl" class="logo" />
+               }
+               <p style="color:@TextColorWithOpacity" class="preview-title">Quick Application</p>
+               <button class="preview-button @(SelectedButtonStyle == "rounded" ? "rounded-button" : "square-button")"
+                  style="background-color:@TextColorWithOpacity; color:white; font-family:@SelectedFontFamily; font-weight:@SelectedFontWeight.ToLower(); font-size:@SelectedFontSize;">Next</button>
+            </div>
+         </div>
+      </div>
+
+   </div>
+
+
 </div>
 
 <div class="action-buttons">
-    <button class="secondary-button">Back</button>
-    <button class="primary-btn">Next</button>
+   <button class="secondary-button">Back</button>
+   <button class="primary-btn">Next</button>
 </div>
 
 @code {
-    private int Hue { get; set; } = 240;
-    private int Opacity { get; set; } = 100;
-    private int TextHue { get; set; } = 240;
-    private int TextOpacity { get; set; } = 100;
+   private int Hue { get; set; } = 240;
+   private int Opacity { get; set; } = 100;
+   private int TextHue { get; set; } = 240;
+   private int TextOpacity { get; set; } = 100;
 
-    private string BackgroundColor => HslToHex(Hue, 100, 50);
-    private string BackgroundColorWithOpacity =>
-        $"{BackgroundColor}{Convert.ToString((int)(Opacity / 100.0 * 255), 16).PadLeft(2, '0')}";
+   private string SelectedButtonStyle { get; set; } = "rounded";
+   private string SelectedFontFamily { get; set; } = "Acumin Pro";
+   private string SelectedFontWeight { get; set; } = "Regular";
+   private string SelectedFontSize { get; set; } = "24px";
 
-    private string TextColor => HslToHex(TextHue, 100, 50);
-    private string TextColorWithOpacity =>
-        $"{TextColor}{Convert.ToString((int)(TextOpacity / 100.0 * 255), 16).PadLeft(2, '0')}";
+   private string BackgroundColor => HslToHex(Hue, 100, 50);
+   private string BackgroundColorWithOpacity =>
+   $"{BackgroundColor}{Convert.ToString((int)(Opacity / 100.0 * 255), 16).PadLeft(2, '0')}";
 
-    private string? ImageDataUrl;
+   private string TextColor => HslToHex(TextHue, 100, 50);
+   private string TextColorWithOpacity =>
+   $"{TextColor}{Convert.ToString((int)(TextOpacity / 100.0 * 255), 16).PadLeft(2, '0')}";
 
-    private async Task HandleFileChange(InputFileChangeEventArgs e)
-    {
-        var file = e.File;
-        using var stream = file.OpenReadStream(maxAllowedSize: 1024 * 1024);
-        var buffer = new byte[file.Size];
-        await stream.ReadAsync(buffer);
-        ImageDataUrl = $"data:{file.ContentType};base64,{Convert.ToBase64String(buffer)}";
-    }
+   private string? ImageDataUrl;
 
-    private async Task TriggerFileInput()
-    {
-        await JS.InvokeVoidAsync("triggerInputClick", "fileInput");
-    }
+   private async Task HandleFileChange(InputFileChangeEventArgs e)
+   {
+      var file = e.File;
+      using var stream = file.OpenReadStream(maxAllowedSize: 1024 * 1024);
+      var buffer = new byte[file.Size];
+      await stream.ReadAsync(buffer);
+      ImageDataUrl = $"data:{file.ContentType};base64,{Convert.ToBase64String(buffer)}";
+   }
 
-    private string HslToHex(int h, int s, int l)
-    {
-        double C = (1 - Math.Abs(2 * l / 100.0 - 1)) * (s / 100.0);
-        double X = C * (1 - Math.Abs(h / 60.0 % 2 - 1));
-        double m = l / 100.0 - C / 2;
-        double r = 0, g = 0, b = 0;
+   private async Task TriggerFileInput()
+   {
+      await JS.InvokeVoidAsync("triggerInputClick", "fileInput");
+   }
 
-        if (h < 60) { r = C; g = X; }
-        else if (h < 120) { r = X; g = C; }
-        else if (h < 180) { g = C; b = X; }
-        else if (h < 240) { g = X; b = C; }
-        else if (h < 300) { r = X; b = C; }
-        else { r = C; b = X; }
+   private string HslToHex(int h, int s, int l)
+   {
+      double C = (1 - Math.Abs(2 * l / 100.0 - 1)) * (s / 100.0);
+      double X = C * (1 - Math.Abs(h / 60.0 % 2 - 1));
+      double m = l / 100.0 - C / 2;
+      double r = 0, g = 0, b = 0;
 
-        int R = (int)Math.Round((r + m) * 255);
-        int G = (int)Math.Round((g + m) * 255);
-        int B = (int)Math.Round((b + m) * 255);
+      if (h < 60) { r = C; g = X; }
+      else if (h < 120) { r = X; g = C; }
+      else if (h < 180) { g = C; b = X; }
+      else if (h < 240) { g = X; b = C; }
+      else if (h < 300) { r = X; b = C; }
+      else { r = C; b = X; }
 
-        return $"#{R:X2}{G:X2}{B:X2}";
-    }
+      int R = (int)Math.Round((r + m) * 255);
+      int G = (int)Math.Round((g + m) * 255);
+      int B = (int)Math.Round((b + m) * 255);
+
+      return $"#{R:X2}{G:X2}{B:X2}";
+   }
 }
 
 
 <style>
-    .upload-header {
-   display: flex;
-   align-items: center;
-   gap: 8px;
-   margin-bottom: 8px;
-}
+   .upload-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+   }
 
-.upload-icon {
-   width: 16px;
-   height: 16px;
-}
-.preview-title {
-   font-size: 24px;
-   margin-top: 10px;
-   text-align: center;
-}
+   .upload-icon {
+      width: 16px;
+      height: 16px;
+   }
 
-.preview-button {
-   padding: 10px 20px;
-   border: none;
-   border-radius: 8px;
-   margin-top: 20px;
-   cursor: pointer;
-}
+   .preview-title {
+      font-size: 24px;
+      margin-top: 10px;
+      text-align: center;
+   }
+
+   .preview-button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      margin-top: 20px;
+      cursor: pointer;
+   }
 
    .breadcrumb {
       font-size: 0.875rem;
@@ -205,6 +330,7 @@
       font-size: 14px;
       font-weight: 400;
       color: #585C7B;
+      width: 70px;
    }
 
 
@@ -226,6 +352,7 @@
       background: linear-gradient(to right,
             red, orange, yellow, green, cyan, blue, violet, red);
       outline: none;
+      margin-bottom: 1rem;
    }
 
    .color-range::-webkit-slider-thumb {
@@ -289,9 +416,9 @@
    }
 
    .splash-preview {
-      width: 300px;
+      width: 100%;
       height: 600px;
-      border-radius: 20px;
+      border-radius: 16px;
       position: relative;
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
       display: flex;
@@ -343,5 +470,299 @@
       font-weight: 700;
       cursor: pointer;
       border: 0px;
+   }
+
+   .colors-container {
+      display: flex;
+      align-items: start;
+      gap: 1.5rem;
+   }
+
+   .bg-color-container {
+      width: 100%;
+   }
+
+   .bg-color-container>label {
+      margin-bottom: 1rem;
+      font-size: 16px;
+      color: #141340;
+      font-weight: 400;
+   }
+
+   .color-code-container {
+      margin-bottom: 1rem;
+   }
+
+   .buttons-heading {
+      font-size: 16px;
+      color: #141340;
+      font-weight: 400;
+      margin-bottom: 1rem;
+   }
+
+   .button-style-options {
+      display: flex;
+      gap: 20px;
+   }
+
+   .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 50%;
+   }
+
+   .style-button {
+      background-color: #0047FF;
+      color: white;
+      padding: 4px 12px;
+      font-size: 20px;
+      border: none;
+      cursor: pointer;
+      font-weight: 400;
+      width: 100%;
+   }
+
+   .radio-btn {
+      width: 20px;
+      height: 20px;
+      accent-color: #0047FF;
+      cursor: pointer;
+   }
+
+   .style-button.rounded-button {
+      border-radius: 56px;
+   }
+
+   .style-button.square-button {
+      border-radius: 8px;
+   }
+
+   .font-style-heading {
+      font-size: 16px;
+      color: #141340;
+      font-weight: 400;
+      margin-bottom: 1rem;
+   }
+
+   .font-style-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+   }
+
+   .font-style-item {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 46%;
+   }
+
+   .font-style-item label {
+      font-size: 16px;
+      font-weight: 400;
+      color: #585C7B;
+   }
+
+   .font-select {
+      padding: 8px;
+      border: 1px solid #EAECF0;
+      border-radius: 10px;
+      min-width: 140px;
+      outline: none;
+      color: #585C7B;
+      background-color: white;
+      font-size: 14px;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg fill='none' stroke='%23585C7B' stroke-width='2' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 16px;
+   }
+
+   .font-select option {
+      color: #585C7B;
+      background-color: white;
+   }
+
+   .font-select option:hover {
+      color: #fff;
+      background-color: #0047FF;
+   }
+
+   /* phone‐frame wrapper */
+   .device-frame {
+      width: 384px;
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      background-color: #0047FF;
+
+   }
+
+   /* blue header bar */
+   .device-header {
+      display: flex;
+      align-items: center;
+      padding: 24px 12px;
+      gap: 48px;
+   }
+
+   .device-header .back-btn {
+      background-color: #3360FF;
+      border: none;
+      padding: 2px;
+      width: 24px;
+      height: 24px;
+      border-radius: 9999px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+   }
+
+   .device-header .back-btn img {
+      rotate: 180deg;
+   }
+
+   .device-header .header-title {
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      text-align: center
+   }
+
+   /* progress tracker */
+   .progress-tracker {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #0047FF;
+      padding: 12px 8px;
+   }
+
+   .progress-tracker .step {
+      flex: 1;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 10px;
+      position: relative;
+   }
+
+   .progress-tracker .step.active .circle {
+      background-color: #fff;
+   }
+
+   .progress-tracker .step .circle {
+      display: block;
+      width: 10px;
+      height: 10px;
+      margin: 0 auto 4px;
+      border-radius: 50%;
+      background-color: #0047FF;
+      border: 2px solid #fff
+   }
+
+   .progress-tracker .step::before {
+      content: "";
+      position: absolute;
+      top: 4px;
+      left: -50%;
+      width: 100%;
+      height: 2px;
+      background-color: #fff;
+   }
+
+   .progress-tracker .step.active+.step::before {
+      background-color: rgba(255, 255, 255, 0.7);
+   }
+
+   .progress-tracker .step .label {
+      display: block;
+      white-space: nowrap;
+   }
+
+   .timeline-horizontal {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      margin-bottom: 2rem;
+      gap: 4px;
+      padding: 0px 12px;
+   }
+
+   .timeline-horizontal::before {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 10%;
+      right: 10%;
+      height: 2px;
+      background: #d3d3d3;
+   }
+
+   .timeline-horizontal::after {
+      content: '';
+      position: absolute;
+      top: 12px;
+      left: 6%;
+      height: 2px;
+      transition: width 0.3s ease;
+   }
+
+   .timeline-horizontal[current-step="1"]::after {
+      width: 20%;
+   }
+
+   .timeline-horizontal[current-step="2"]::after {
+      width: 40%;
+   }
+
+   .timeline-horizontal[current-step="3"]::after {
+      width: 60%;
+   }
+
+   .timeline-horizontal[current-step="4"]::after {
+      width: 85%;
+   }
+
+
+   .tl-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+   }
+
+   .tl-step span {
+      margin-top: 8px;
+      font-size: 14px;
+      color: #fff;
+      text-align: center;
+      display: block;
+      white-space: nowrap;
+   }
+
+   .tl-dot {
+      width: 14px;
+      height: 14px;
+      background: #fff;
+      border-radius: 50%;
+      position: relative;
+   }
+
+   .tl-step.active .tl-dot {
+      border: 1px solid #fff;
+      background: #fff;
+   }
+
+   .tl-step .tl-dot {
+      border: 1px solid #fff;
+      background: #0047FF;
    }
 </style>

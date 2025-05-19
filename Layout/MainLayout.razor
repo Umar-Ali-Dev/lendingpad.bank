@@ -1,12 +1,22 @@
 ﻿@inherits LayoutComponentBase
+
 <div class="page">
     <div class="sidebar">
         <NavMenu />
     </div>
 
     <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+        <div class="top-navbar">
+            <div class="search-input-container">
+                <img src="icons/SearchIcon.svg" alt="search" width="24" height="24" />
+                <input type="text" placeholder="Search keywords" class="tab-input" />
+            </div>
+
+            <div class="nav-icons">
+                <img src="icons/GearSix.svg" alt="settings" class="nav-icon" />
+                <img src="icons/Bell.svg" alt="notifications" class="nav-icon" />
+                <img src="icons/Google.svg" alt="user" class="nav-avatar" />
+            </div>
         </div>
 
         <article class="content px-4">

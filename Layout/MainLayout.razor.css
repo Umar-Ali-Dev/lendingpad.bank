@@ -91,3 +91,48 @@ main {
     padding-right: 1.5rem !important;
   }
 }
+
+.top-navbar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 20px;
+  gap: 10px;
+}
+
+.search-input-container {
+  padding: 0.5rem 1rem;
+  border: 1.5px solid #e5e5e5;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  color: #1f2937;
+  background-color: white;
+}
+
+.search-input-container .tab-input {
+  border: 0px;
+  outline: none;
+}
+
+.nav-icons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-icon {
+  width: 40px;
+  height: 40px;
+  background-color: #0047ff;
+  padding: 8px;
+  border-radius: 50%;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.nav-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+}

@@ -12,79 +12,51 @@
    <img src="icons/CitiBankIcon.svg" alt="CitiBankIcon" />
 </div>
 
+<div class="form-timeline-horizontal mb-4 show-md-up">
+   <div class="form-tl-step">
+      <div class="form-tl-dot">
+         <div class="form-tl-inner-dot"></div>
+      </div>
+      <span class="@(currentStep > 1 ? "text-black" : currentStep == 1 ? "text-blue" : "")">Property</span>
+   </div>
+   <div class="form-tl-step">
+      <div class="form-tl-dot">
+         <div class="form-tl-inner-dot"></div>
+      </div>
+      <span class="@(currentStep > 2 ? "text-black" : currentStep == 2 ? "text-blue" : "")">Income</span>
+   </div>
+   <div class="form-tl-step">
+      <div class="form-tl-dot">
+         <div class="form-tl-inner-dot"></div>
+      </div>
+      <span class="@(currentStep > 3 ? "text-black" : currentStep == 3 ? "text-blue" : "")">Asset</span>
+   </div>
+   <div class="form-tl-step">
+      <div class="form-tl-dot">
+         <div class="form-tl-inner-dot"></div>
+      </div>
+      <span class="@(currentStep > 4 ? "text-black" : currentStep == 4 ? "text-blue" : "")">Credit Report</span>
+   </div>
+   <div class="form-tl-step">
+      <div class="form-tl-dot">
+         <div class="form-tl-inner-dot"></div>
+      </div>
+      <span class="@(currentStep > 5 ? "text-black" : currentStep == 5 ? "text-blue" : "")">Expenses</span>
+   </div>
+</div>
+
 <div class="splash-container">
    <div class="editor-panel">
       <div class="application-heading">
-         <h2 class="page-heading">Property</h2>
+         <h2 class="page-heading">@GetCurrentStepTitle()</h2>
          <button class="edit-application-btn"><img src="icons/PencilSimple.svg" />Edit</button>
       </div>
       <p class="page-subtitle">Please provide the details below to continue</p>
 
-      <div class="card-container">
-         <div class="field-container">
-            <h3 class="field-label">Where are you looking? <span><img src="icons/InfoIcon.svg" /></span></h3>
-            <div class="input-action">
-               <input type="text" class="field-input" placeholder="Enter Zip code" />
-               <div class="field-actions">
-                  <button class="edit-btn"><img src="icons/EditBlueIcon.svg" /></button>
-                  <button class="delete-btn"><img src="icons/DeleteRedIcon.svg" /></button>
-               </div>
-            </div>
-         </div>
-         <div class="field-container">
-            <h3 class="field-label">How do you plan to use? <span><img src="icons/InfoIcon.svg" /></span></h3>
-            <div class="input-action">
-               <div style="display: flex; align-items: center; gap: 24px;">
-                  <div class="radio-container">
-                     <input type="radio" class="radio-input" value="PR" />
-                     <label for="PR">PR</label>
-                  </div>
-                  <div class="radio-container">
-                     <input type="radio" class="radio-input" value="SH" />
-                     <label for="SH">SH</label>
-                  </div>
-                  <div class="radio-container">
-                     <input type="radio" class="radio-input" value="IV" />
-                     <label for="IV">IV</label>
-                  </div>
-               </div>
-               <div class="field-actions">
-                  <button class="edit-btn"><img src="icons/EditBlueIcon.svg" /></button>
-                  <button class="delete-btn"><img src="icons/DeleteRedIcon.svg" /></button>
-               </div>
-            </div>
-         </div>
-         <div class="field-container">
-            <h3 class="field-label">How much are you buying?<span><img src="icons/InfoIcon.svg" /></span></h3>
-            <div class="input-action">
-               <input type="number" class="field-input" placeholder="$200" />
-               <div class="field-actions">
-                  <button class="edit-btn"><img src="icons/EditBlueIcon.svg" /></button>
-                  <button class="delete-btn"><img src="icons/DeleteRedIcon.svg" /></button>
-               </div>
-            </div>
-         </div>
-         <div class="field-container">
-            <h3 class="field-label">Expected downpay?<span><img src="icons/InfoIcon.svg" /></span></h3>
-            <div class="input-action">
-               <input type="number" class="field-input" placeholder="$200" />
-               <div class="field-actions">
-                  <button class="edit-btn"><img src="icons/EditBlueIcon.svg" /></button>
-                  <button class="delete-btn"><img src="icons/DeleteRedIcon.svg" /></button>
-               </div>
-            </div>
-         </div>
-         <div class="field-container">
-            <h3 class="field-label">Type of product considered? <span><img src="icons/InfoIcon.svg" /></span></h3>
-            <div class="input-action">
-               <input type="text" class="field-input" placeholder="Type of product considered" />
-               <div class="field-actions">
-                  <button class="edit-btn"><img src="icons/EditBlueIcon.svg" /></button>
-                  <button class="delete-btn"><img src="icons/DeleteRedIcon.svg" /></button>
-               </div>
-            </div>
-         </div>
-         <button class="add-field-btn"><span class=""><img src="icons/PlusIcon.svg" width="18" height="18" /></span> Add
+      <div>
+         @RenderCurrentStep()
+         <button class="add-field-btn" @onclick="OpenModal"><span class=""><img src="icons/PlusIcon.svg" width="18"
+                  height="18" /></span> Add
             New Field</button>
       </div>
 
@@ -94,12 +66,125 @@
    {
       <div class="modal-overlay">
          <div class="modal-content">
-            <h2 class="modal-title">Add a New Card</h2>
-            <p class="mb-0">Select Card Type</p>
+            <h2 class="modal-title">Add New Field</h2>
+            <p class="mb-0">Select Field Type</p>
 
             <div class="card-type-btn-container">
-               <button class="card-type-btn">Pre Defined</button>
-               <button class="card-type-btn">Customize</button>
+               <button class="card-type-btn" @onclick="ShowPreDefinedModal">Pre Defined</button>
+               <button class="card-type-btn" @onclick="ShowCustomizeModal">Customize</button>
+            </div>
+            <div class="modal-actions">
+               <button class="primary-btn">Add</button>
+               <button class="outline-btn" @onclick="CloseModal">Cancel</button>
+            </div>
+         </div>
+      </div>
+   }
+
+   @if (selectedModalType == "PreDefined")
+   {
+      <div class="modal-overlay">
+         <div class="predefined-field-modal-content">
+            <h2 class="modal-title">Predefined Fields</h2>
+            <p class="mb-0">Select fields to add in your application form</p>
+            <div style="display: flex; flex-wrap: wrap; width: 100%; gap: 16px;">
+               <div class="predefined-field-field-container">
+                  <h3 class="field-label">Where are you looking? <span><img src="icons/InfoIcon.svg" /></span></h3>
+                  <div class="input-action">
+                     <input type="number" class="field-input" placeholder="Enter Zip code" />
+                  </div>
+               </div>
+               <div class="predefined-field-field-container">
+                  <h3 class="field-label">How much are you buying? <span><img src="icons/InfoIcon.svg" /></span></h3>
+                  <div class="input-action">
+                     <input type="number" class="field-input" placeholder="Enter Zip code" />
+                  </div>
+               </div>
+               <div class="predefined-field-field-container">
+                  <h3 class="field-label">Expected downpay? <span><img src="icons/InfoIcon.svg" /></span></h3>
+                  <div class="input-action">
+                     <input type="number" class="field-input" placeholder="Enter Zip code" />
+                  </div>
+               </div>
+               <div class="predefined-field-field-container">
+                  <h3 class="field-label">Type of product considered? <span><img src="icons/InfoIcon.svg" /></span></h3>
+                  <div class="input-action">
+                     <input type="text" class="field-input" placeholder="Type of product considered" />
+                  </div>
+               </div>
+               <div class="predefined-field-field-container">
+                  <h3 class="field-label">How do you plan to use? <span><img src="icons/InfoIcon.svg" /></span></h3>
+                  <div class="input-action">
+                     <div style="display: flex; align-items: center; gap: 24px;">
+                        <div class="radio-container">
+                           <input type="radio" class="radio-input" value="PR" />
+                           <label for="PR">PR</label>
+                        </div>
+                        <div class="radio-container">
+                           <input type="radio" class="radio-input" value="SH" />
+                           <label for="SH">SH</label>
+                        </div>
+                        <div class="radio-container">
+                           <input type="radio" class="radio-input" value="IV" />
+                           <label for="IV">IV</label>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+            <div class="modal-actions">
+               <button class="primary-btn">Add</button>
+               <button class="outline-btn" @onclick="CloseModal">Cancel</button>
+            </div>
+         </div>
+      </div>
+   }
+
+   @if (selectedModalType == "Customize")
+   {
+      <div class="modal-overlay">
+         <div class="modal-content">
+            <h2 class="modal-title">Add New Field</h2>
+            <div class="field-container">
+               <h3 class="field-label">Enter Question Text </h3>
+               <div class="input-action">
+                  <input type="text" class="field-input" placeholder="Enter text here" />
+               </div>
+            </div>
+            <h3 class="field-label" style="margin-bottom: 0px !important;">Select Answer Type </h3>
+            <div class="card-type-btn-container">
+               <button class="card-type-btn"><span><img src="icons/DropdownIcon.svg" width="14" height="14" /></span>
+                  Dropdown</button>
+               <button class="card-type-btn"><span><img src="icons/TextAlignRight.svg" width="24" height="24" /></span>Text
+                  Field</button>
+            </div>
+            <div class="card-type-btn-container">
+               <button class="card-type-btn"
+                  style="display: flex; align-items: center; justify-content: center; gap: 2px;"><input type="radio"
+                     name="answer-radio" class="answer-radio" />
+                  Choices</button>
+               <button class=" card-type-btn"
+                  style="display: flex; align-items: center; justify-content: center; gap: 2px;"><input type="checkbox"
+                     name="answer-checkbox" class="answer-checkbox" />
+                  Check Box</button>
+            </div>
+            <h3 class="field-label" style="margin-bottom: 0px !important;">Please select question type</h3>
+            <div class="card-type-btn-container">
+               <button class="card-type-btn"><span><img src="icons/DropdownIcon.svg" width="14"
+                        height="14" /></span>Date</button>
+               <button class="card-type-btn"><span><img src="icons/TextAlignRight.svg" width="24" height="24" /></span>Text
+                  Field</button>
+            </div>
+            <div class="card-type-btn-container">
+               <button class="card-type-btn"
+                  style="display: flex; align-items: center; justify-content: center; gap: 2px;"><input type="radio"
+                     name="question-radio" class="question-radio" />
+                  Choices</button>
+               <button class=" card-type-btn"
+                  style="display: flex; align-items: center; justify-content: center; gap: 2px;"> <input type="checkbox"
+                     name="question-checkbox" class="question-checkbox" />Check
+                  Box</button>
             </div>
             <div class="modal-actions">
                <button class="primary-btn">Add</button>
@@ -161,24 +246,226 @@
       </div>
 
    </div>
-
-
 </div>
 
 <div class="action-buttons">
-   <button class="secondary-button">Back</button>
-   <a class="primary-btn" href="/quick-application/form/income">Next</a>
+   <button class="secondary-button" @onclick="GoToPreviousStep" disabled="@(currentStep == 1)">Back</button>
+   <button class="primary-btn" @onclick="GoToNextStep" disabled="@(currentStep == 5)">Next</button>
 </div>
 
 @code {
    private bool isModalOpen = false;
+   private string selectedModalType = string.Empty;
+   private int currentStep = 1;
 
-   private void OpenModal() => isModalOpen = true;
+
+   private void OpenModal()
+   {
+      isModalOpen = true;
+      selectedModalType = string.Empty;
+   }
 
    private void CloseModal()
    {
       isModalOpen = false;
+      selectedModalType = string.Empty;
    }
+
+   private void ShowPreDefinedModal()
+   {
+      selectedModalType = "PreDefined";
+   }
+
+   private void ShowCustomizeModal()
+   {
+      selectedModalType = "Customize";
+   }
+
+   private void GoToNextStep()
+   {
+      if (currentStep < 5)
+      {
+         currentStep++;
+      }
+   }
+
+   private void GoToPreviousStep()
+   {
+      if (currentStep > 1)
+      {
+         currentStep--;
+      }
+   }
+
+   private string GetCurrentStepTitle()
+   {
+      return currentStep switch
+      {
+         1 => "Property",
+         2 => "Income",
+         3 => "Asset",
+         4 => "Credit Report",
+         5 => "Expenses",
+         _ => "Application"
+      };
+   }
+
+   private RenderFragment RenderCurrentStep() => currentStep switch
+   {
+      1 => @<div class="card-container">
+   <div class="field-container">
+      <h3 class="field-label">Where are you looking? <span><img src="icons/InfoIcon.svg" /></span></h3>
+      <div class="input-action">
+         <input type="text" class="field-input" placeholder="Enter Zip code" />
+         <div class="field-actions">
+            <button class="edit-btn"><img src="icons/EditBlueIcon.svg" /></button>
+            <button class="delete-btn"><img src="icons/DeleteRedIcon.svg" /></button>
+         </div>
+      </div>
+   </div>
+   <div class="field-container">
+      <h3 class="field-label">How do you plan to use? <span><img src="icons/InfoIcon.svg" /></span></h3>
+      <div class="input-action">
+         <div style="display: flex; align-items: center; gap: 24px;">
+            <div class="radio-container">
+               <input type="radio" class="radio-input" value="PR" />
+               <label for="PR">PR</label>
+            </div>
+            <div class="radio-container">
+               <input type="radio" class="radio-input" value="SH" />
+               <label for="SH">SH</label>
+            </div>
+            <div class="radio-container">
+               <input type="radio" class="radio-input" value="IV" />
+               <label for="IV">IV</label>
+            </div>
+         </div>
+         <div class="field-actions">
+            <button class="edit-btn"><img src="icons/EditBlueIcon.svg" /></button>
+            <button class="delete-btn"><img src="icons/DeleteRedIcon.svg" /></button>
+         </div>
+      </div>
+   </div>
+   <div class="field-container">
+      <h3 class="field-label">How much are you buying?<span><img src="icons/InfoIcon.svg" /></span></h3>
+      <div class="input-action">
+         <input type="number" class="field-input" placeholder="$200" />
+         <div class="field-actions">
+            <button class="edit-btn"><img src="icons/EditBlueIcon.svg" /></button>
+            <button class="delete-btn"><img src="icons/DeleteRedIcon.svg" /></button>
+         </div>
+      </div>
+   </div>
+   <div class="field-container">
+      <h3 class="field-label">Expected downpay?<span><img src="icons/InfoIcon.svg" /></span></h3>
+      <div class="input-action">
+         <input type="number" class="field-input" placeholder="$200" />
+         <div class="field-actions">
+            <button class="edit-btn"><img src="icons/EditBlueIcon.svg" /></button>
+            <button class="delete-btn"><img src="icons/DeleteRedIcon.svg" /></button>
+         </div>
+      </div>
+   </div>
+   <div class="field-container">
+      <h3 class="field-label">Type of product considered? <span><img src="icons/InfoIcon.svg" /></span></h3>
+      <div class="input-action">
+         <input type="text" class="field-input" placeholder="Type of product considered" />
+         <div class="field-actions">
+            <button class="edit-btn"><img src="icons/EditBlueIcon.svg" /></button>
+            <button class="delete-btn"><img src="icons/DeleteRedIcon.svg" /></button>
+         </div>
+      </div>
+   </div>
+</div>,
+
+2 => @<div class="card-container">
+   <div class="field-container">
+      <h3 class="field-label">How much is it per month? <span><img src="icons/InfoIcon.svg" /></span></h3>
+      <div class="input-action">
+         <input type="number" class="field-input" placeholder="$200" />
+         <div class="field-actions">
+            <button class="edit-btn"><img src="icons/EditBlueIcon.svg" /></button>
+            <button class="delete-btn"><img src="icons/DeleteRedIcon.svg" /></button>
+         </div>
+      </div>
+   </div>
+</div>,
+
+// Add similar blocks for steps 3-5
+
+3 => @<div class="card-container">
+   <div class="field-container">
+      <h3 class="field-label">How much is it per month? <span><img src="icons/InfoIcon.svg" /></span></h3>
+      <div class="input-action">
+         <input type="number" class="field-input" placeholder="$200" />
+         <div class="field-actions">
+            <button class="edit-btn"><img src="icons/EditBlueIcon.svg" /></button>
+            <button class="delete-btn"><img src="icons/DeleteRedIcon.svg" /></button>
+         </div>
+      </div>
+   </div>
+</div>,
+
+4 => @<div class="card-container">
+   <div class="field-container">
+      <h3 class="field-label">Please enter your Social Security Number (SSN)? <span><img
+               src="icons/InfoIcon.svg" /></span></h3>
+      <div class="input-action">
+         <input type="number" class="field-input" placeholder="45721" />
+         <div class="field-actions">
+            <button class="edit-btn"><img src="icons/EditBlueIcon.svg" /></button>
+            <button class="delete-btn"><img src="icons/DeleteRedIcon.svg" /></button>
+         </div>
+      </div>
+      <div class="agreeTermsContainer">
+         <input type="checkbox" name="agreeTerm" class="checkboxInput">
+         <label for="agreeTerm" class="agreeText">I Agree the Terms & Conditions</label>
+      </div>
+   </div>
+</div>,
+
+5 => @<div class="card-container">
+   <div class="field-container">
+      <h3 class="field-label">Do you have other expenses? <span><img src="icons/InfoIcon.svg" /></span></h3>
+      <div class="input-action">
+         <div style="display: flex; align-items: center; gap: 24px;">
+            <div class="radio-container">
+               <input type="radio" class="radio-input" value="Yes" />
+               <label for="Yes">Yes</label>
+            </div>
+            <div class="radio-container">
+               <input type="radio" class="radio-input" value="No" />
+               <label for="No">No</label>
+            </div>
+         </div>
+         <div class="field-actions">
+            <button class="edit-btn"><img src="icons/EditBlueIcon.svg" /></button>
+            <button class="delete-btn"><img src="icons/DeleteRedIcon.svg" /></button>
+         </div>
+      </div>
+   </div>
+   <div class="field-container">
+      <h3 class="field-label">Do you own any other property? <span><img src="icons/InfoIcon.svg" /></span></h3>
+      <div class="input-action">
+         <div style="display: flex; align-items: center; gap: 24px;">
+            <div class="radio-container">
+               <input type="radio" class="radio-input" value="Yes" />
+               <label for="Yes">Yes</label>
+            </div>
+            <div class="radio-container">
+               <input type="radio" class="radio-input" value="No" />
+               <label for="No">No</label>
+            </div>
+         </div>
+         <div class="field-actions">
+            <button class="edit-btn"><img src="icons/EditBlueIcon.svg" /></button>
+            <button class="delete-btn"><img src="icons/DeleteRedIcon.svg" /></button>
+         </div>
+      </div>
+   </div>
+</div>,
+_ => @<div>Invalid Step</div>
+};
 
 }
 
@@ -531,6 +818,18 @@
       text-align: left;
    }
 
+   .predefined-field-modal-content {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      width: 860px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      text-align: left;
+   }
+
    .modal-actions {
       display: flex;
       justify-content: flex-end;
@@ -605,6 +904,10 @@
       width: 100%;
    }
 
+   .predefined-field-field-container {
+      width: 48%;
+   }
+
    .radio-input {
       width: 100%;
    }
@@ -635,6 +938,7 @@
       gap: 2px;
       justify-content: end;
       width: 100%;
+      margin-top: 1.5rem;
    }
 
    .add-field-btn>span {
@@ -646,5 +950,111 @@
       display: flex;
       justify-content: center;
       align-items: center;
+   }
+
+   .answer-radio,
+   .question-radio {
+      width: 18px;
+      height: 18px;
+      accent-color: #585C7B;
+   }
+
+   .question-checkbox,
+   .answer-checkbox {
+      width: 18px;
+      height: 18px;
+      accent-color: #585C7B;
+   }
+
+
+   .form-timeline-horizontal {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      margin-bottom: 2rem;
+      gap: 4px;
+      max-width: 533px;
+   }
+
+   .form-timeline-horizontal::before {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 5%;
+      right: 5%;
+      height: 2px;
+      background: #C0C4CA;
+   }
+
+   .form-timeline-horizontal::after {
+      content: '';
+      position: absolute;
+      top: 12px;
+      left: 6%;
+      height: 2px;
+      transition: width 0.3s ease;
+   }
+
+   .form-timeline-horizontal[current-step="1"]::after {
+      width: 20%;
+   }
+
+   .form-timeline-horizontal[current-step="2"]::after {
+      width: 40%;
+   }
+
+   .form-timeline-horizontal[current-step="3"]::after {
+      width: 60%;
+   }
+
+   .form-timeline-horizontal[current-step="4"]::after {
+      width: 85%;
+   }
+
+
+   .form-tl-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+   }
+
+   .form-tl-step span {
+      margin-top: 8px;
+      font-size: 14px;
+      text-align: center;
+      display: block;
+      white-space: nowrap;
+   }
+
+   .form-tl-step.active span {
+      font-weight: 700;
+   }
+
+   .text-black {
+      color: #141340;
+   }
+
+   .text-blue {
+      color: #0038FF;
+   }
+
+   .form-tl-dot {
+      width: 14px;
+      height: 14px;
+      background: #C0C4CA;
+      border-radius: 50%;
+      position: relative;
+   }
+
+   .form-tl-step.active .form-tl-dot {
+      border: 1px solid #0047FF;
+      background: #0047FF;
+   }
+
+   .form-tl-step .form-tl-dot {
+      border: 2px solid #C0C4CA;
+      background: #fff;
    }
 </style>

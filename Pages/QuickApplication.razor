@@ -118,8 +118,117 @@
             <p class="mb-0">Select Card Type</p>
 
             <div class="card-type-btn-container">
-               <button class="card-type-btn">Pre Defined</button>
-               <button class="card-type-btn">Customize</button>
+               <button class="card-type-btn" @onclick="ShowPreDefinedModal">Pre Defined</button>
+               <button class="card-type-btn" @onclick="ShowCustomizeModal">Customize</button>
+            </div>
+            <div class="modal-actions">
+               <button class="primary-btn">Add</button>
+               <button class="outline-btn" @onclick="CloseModal">Cancel</button>
+            </div>
+         </div>
+      </div>
+   }
+
+   @if (selectedModalType == "Customize")
+   {
+      <div class="modal-overlay">
+         <div class="modal-content">
+            <h2 class="modal-title">Add New Field</h2>
+            <div class="field-container">
+               <h3 class="field-label">Enter Question Text </h3>
+               <div class="input-action">
+                  <input type="text" class="field-input" placeholder="Enter text here" />
+               </div>
+            </div>
+            <h3 class="field-label" style="margin-bottom: 0px !important;">Enter Tool Tip Text </h3>
+            <textarea placeholder="Enter text here" class="field-input" />
+            <h3 class="field-label" style="margin-bottom: 0px !important;">Select Answer Type </h3>
+            <div class="card-type-btn-container">
+               <button class="card-type-btn"><span><img src="icons/DropdownIcon.svg" width="14" height="14" /></span>
+                  Dropdown</button>
+               <button class="card-type-btn"><span><img src="icons/TextAlignRight.svg" width="24" height="24" /></span>Text
+                  Field</button>
+            </div>
+            <div class="card-type-btn-container">
+               <button class="card-type-btn"
+                  style="display: flex; align-items: center; justify-content: center; gap: 2px;"><input type="radio"
+                     name="answer-radio" class="answer-radio" />
+                  Choices</button>
+               <button class=" card-type-btn"
+                  style="display: flex; align-items: center; justify-content: center; gap: 2px;"><input type="checkbox"
+                     name="answer-checkbox" class="answer-checkbox" />
+                  Check Box</button>
+            </div>
+            <div class="modal-actions">
+               <button class="primary-btn">Add</button>
+               <button class="outline-btn" @onclick="CloseModal">Cancel</button>
+            </div>
+         </div>
+      </div>
+   }
+
+   @if (selectedModalType == "PreDefined")
+   {
+      <div class="modal-overlay">
+         <div class="predefined-field-modal-content">
+            <h2 class="modal-title">Predefined Cards</h2>
+            <p class="mb-0">Select cards to add in your application form</p>
+            <div class="card-container" style="justify-content: start !important; gap: 1.5rem;">
+               <div class="modal-app-card">
+                  <div class="card-header">
+                     <span class="drag-icon"><img src="icons/ArrowsOutCardinal.svg" alt=""></span>
+                     <span><img src="icons/BlueTick.svg" alt=""></span>
+                  </div>
+                  <div class="card-body">
+                     <img src="icons/PropertyIcon.svg" alt="icon" class="card-icon" />
+                     <h4 class="card-title">Property</h4>
+                  </div>
+               </div>
+
+               <div class="modal-app-card">
+                  <div class="card-header">
+                     <span class="drag-icon"><img src="icons/ArrowsOutCardinal.svg" alt=""></span>
+                     <span><img src="icons/BlueTick.svg" alt=""></span>
+                  </div>
+                  <div class="card-body">
+                     <img src="icons/DollarIcon.svg" alt="icon" class="card-icon" />
+                     <h4 class="card-title">Income</h4>
+                  </div>
+               </div>
+
+               <div class="modal-app-card">
+                  <div class="card-header">
+                     <span class="drag-icon"><img src="icons/ArrowsOutCardinal.svg" alt=""></span>
+                     <span><img src="icons/BlueTick.svg" alt=""></span>
+                  </div>
+                  <div class="card-body">
+                     <img src="icons/AssetsIcon.svg" alt="icon" class="card-icon" />
+                     <h4 class="card-title">Assets</h4>
+                  </div>
+               </div>
+
+               <div class="modal-app-card">
+                  <div class="card-header">
+                     <span class="drag-icon"><img src="icons/ArrowsOutCardinal.svg" alt=""></span>
+                     <span><img src="icons/BlueTick.svg" alt=""></span>
+                  </div>
+                  <div class="card-body">
+                     <img src="icons/ReportIcon.svg" alt="icon" class="card-icon" />
+                     <h4 class="card-title">Credit Report</h4>
+                  </div>
+               </div>
+
+               <div class="modal-app-card">
+                  <div class="card-header">
+                     <span class="drag-icon"><img src="icons/ArrowsOutCardinal.svg" alt=""></span>
+                     <span><img src="icons/BlueTick.svg" alt=""></span>
+                  </div>
+                  <div class="card-body">
+                     <img src="icons/ExpensesIcon.svg" alt="icon" class="card-icon" />
+                     <h4 class="card-title">Expenses</h4>
+                  </div>
+               </div>
+
             </div>
             <div class="modal-actions">
                <button class="primary-btn">Add</button>
@@ -194,12 +303,28 @@
 
 @code {
    private bool isModalOpen = false;
+   private string selectedModalType = string.Empty;
 
-   private void OpenModal() => isModalOpen = true;
+   private void OpenModal()
+   {
+      isModalOpen = true;
+      selectedModalType = string.Empty;
+   }
 
    private void CloseModal()
    {
       isModalOpen = false;
+      selectedModalType = string.Empty;
+   }
+
+   private void ShowPreDefinedModal()
+   {
+      selectedModalType = "PreDefined";
+   }
+
+   private void ShowCustomizeModal()
+   {
+      selectedModalType = "Customize";
    }
 
    private int Hue { get; set; } = 240;
@@ -659,6 +784,23 @@
       margin-top: 10px;
    }
 
+   .modal-app-card {
+      width: 31%;
+      background: white;
+      border-radius: 0.75rem;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      transition: box-shadow 0.2s;
+      text-decoration: none;
+      box-shadow: 0px 0px 15px 0px #00000012;
+      cursor: pointer;
+      margin-top: 10px;
+   }
+
+   .modal-app-card:hover,
    .app-card:hover {
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
    }
@@ -764,6 +906,18 @@
       text-align: left;
    }
 
+   .predefined-field-modal-content {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      width: 924px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      text-align: left;
+   }
+
    .modal-actions {
       display: flex;
       justify-content: flex-end;
@@ -806,5 +960,45 @@
       padding: 14px 12px;
       border: none;
       width: 48%;
+   }
+
+   .field-label {
+      font-size: 16px;
+      font-weight: 400;
+      color: #585C7B;
+   }
+
+   .input-action {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      width: 100%;
+   }
+
+   .field-input {
+      border: 2px solid #EAECF0;
+      border-radius: 10px;
+      padding: 14px 16px;
+      outline: none;
+      width: 100%;
+   }
+
+   .field-input::placeholder {
+      color: #C0C4CA;
+   }
+
+   .answer-radio,
+   .question-radio {
+      width: 18px;
+      height: 18px;
+      accent-color: #585C7B;
+   }
+
+   .question-checkbox,
+   .answer-checkbox {
+      width: 18px;
+      height: 18px;
+      accent-color: #585C7B;
    }
 </style>
